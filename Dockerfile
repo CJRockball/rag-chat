@@ -16,9 +16,17 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Create non-root user
-RUN useradd --create-home --shell /bin/bash app
-RUN chown -R app:app /app
-USER app
+RUN useradd --create-home --shell /bin/bash appuser
+
+# Copy documents and set ownership
+COPY documents/ /app/documents/
+RUN chown -R appuser:appuser /app/documents/
+
+# Set ownership of entire app directory
+RUN chown -R appuser:appuser /app
+
+# Switch to non-root user
+USER appuser
 
 # Expose port
 EXPOSE 8000

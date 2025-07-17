@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   web:
     build: .
@@ -8,10 +7,10 @@ services:
     env_file:
       - .env
     volumes:
+      - ./documents:/app/documents:ro  # Mount documents directory
       - ./src/utils/vectorstore:/app/src/utils/vectorstore
-      - ./documents:/app/documents
-    depends_on:
-      - redis
+    environment:
+      - DOC_PATH=/app/documents/Tender_Specs_ECDC2024OP0017_V1.pdf  # Use absolute path
     restart: unless-stopped
 
   redis:

@@ -52,12 +52,9 @@ class RAGAgent:
 
     def _generate(self, state: State) -> dict:
         """Generate answer based on retrieved context"""
-        system_prompt = (
-            "You are an assistant. Use the context below \
-                to answer the question.\n\n"
-            f"Context: \n{chr(10).join(d.page_content for d
-                                       in state['context'])}"
-        )
+        context_text = "\n".join([d.page_content for d in state["context"]])
+        system_prompt = ("You are an assistant. Use the context below \
+                         to answer the question.\n\n" f"Context:\n{context_text}")
 
         messages = [
             SystemMessage(content=system_prompt),
